@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(npm create:*)",
+      "Bash(xargs:*)",
+      "Bash(tree:*)",
+      "Bash(npx @tauri-apps/cli icon:*)",
+      "Bash(curl:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run tauri:*)",
+      "Bash(rustc:*)",
+      "Bash(cargo --version:*)",
+      "Bash(powershell Compress-Archive:*)",
+      "Bash(ls:*)",
+      "Bash(powershell \"Move-Item -Path ''CommandMaid'' -Destination ''CmdKeep'' -Force\")"
+    ]
+  }
+}
