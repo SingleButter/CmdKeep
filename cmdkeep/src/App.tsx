@@ -117,16 +117,19 @@ function App() {
           <h1 className="title">CmdKeep</h1>
           <p className="subtitle">命令速记工具</p>
         </div>
-        <button
-          className="add-button"
-          onClick={() => {
-            setEditingCommand(null);
-            setIsModalOpen(true);
-          }}
-        >
-          <Plus size={20} />
-          添加命令
-        </button>
+        <div className="header-right">
+          <SearchBar onSearch={handleSearch} />
+          <button
+            className="add-button"
+            onClick={() => {
+              setEditingCommand(null);
+              setIsModalOpen(true);
+            }}
+          >
+            <Plus size={20} />
+            添加命令
+          </button>
+        </div>
       </header>
 
       <div className="main-container">
@@ -139,7 +142,6 @@ function App() {
         </aside>
 
         <main className="content">
-          <SearchBar onSearch={handleSearch} />
           <CommandList
             commands={commands}
             onEdit={handleEditCommand}
