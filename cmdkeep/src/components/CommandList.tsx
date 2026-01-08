@@ -1,5 +1,6 @@
 import { Command } from "../types";
 import CommandItem from "./CommandItem";
+import { useLanguage } from "../contexts/LanguageContext";
 
 interface CommandListProps {
   commands: Command[];
@@ -8,11 +9,13 @@ interface CommandListProps {
 }
 
 function CommandList({ commands, onEdit, onDelete }: CommandListProps) {
+  const { t } = useLanguage();
+
   if (commands.length === 0) {
     return (
       <div className="empty-state">
-        <p>暂无命令</p>
-        <p className="empty-hint">点击右上角"添加命令"按钮开始添加</p>
+        <p>{t('noCommands')}</p>
+        <p className="empty-hint">{t('addFirstCommand')}</p>
       </div>
     );
   }

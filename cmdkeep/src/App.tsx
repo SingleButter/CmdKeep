@@ -6,8 +6,10 @@ import SearchBar from "./components/SearchBar";
 import AddCommandModal from "./components/AddCommandModal";
 import CategoryFilter from "./components/CategoryFilter";
 import { Plus } from "lucide-react";
+import { useLanguage } from "./contexts/LanguageContext";
 
 function App() {
+  const { t } = useLanguage();
   const [commands, setCommands] = useState<Command[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -89,7 +91,7 @@ function App() {
       loadCategories();
     } catch (error) {
       console.error("Failed to save command:", error);
-      alert("保存失败：" + error);
+      alert(t('saveFailed') + error);
     }
   };
 
@@ -99,7 +101,7 @@ function App() {
   };
 
   const handleDeleteCommand = async (id: number) => {
-    if (confirm("确定要删除这条命令吗?")) {
+    if (confirm(t('confirmDelete'))) {
       try {
         await invoke("delete_command", { id });
         loadCommands();
@@ -114,8 +116,8 @@ function App() {
     <div className="app">
       <header className="header">
         <div className="header-content">
-          <h1 className="title">CmdKeep</h1>
-          <p className="subtitle">命令速记工具</p>
+          <h1 className="title">{t('appTitle')}</h1>
+          <p className="subtitle">{t('appSubtitle')}</p>
         </div>
         <div className="header-right">
           <SearchBar onSearch={handleSearch} />
@@ -127,7 +129,7 @@ function App() {
             }}
           >
             <Plus size={20} />
-            添加命令
+            {t('addCommand')}
           </button>
         </div>
       </header>
