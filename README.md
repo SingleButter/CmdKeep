@@ -10,6 +10,9 @@
 
 ---
 
+[English](README.en.md) | [简体中文](README.md)
+
+
 ## ✨ 功能特性
 
 ### 核心功能
