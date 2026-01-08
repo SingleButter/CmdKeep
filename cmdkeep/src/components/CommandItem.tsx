@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Command } from "../types";
 import { Copy, Edit2, Trash2, Check } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 interface CommandItemProps {
   command: Command;
@@ -9,6 +10,7 @@ interface CommandItemProps {
 }
 
 function CommandItem({ command, onEdit, onDelete }: CommandItemProps) {
+  const { t, language } = useLanguage();
   const [copied, setCopied] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -40,16 +42,29 @@ function CommandItem({ command, onEdit, onDelete }: CommandItemProps) {
     const diffWeeks = Math.floor(diffMs / 604800000);
     const diffMonths = Math.floor(diffMs / 2592000000);
 
-    if (diffMins < 1) return "Added just now";
-    if (diffMins < 60) return `Added ${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
-    if (diffHours < 24) return `Added ${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-    if (diffDays === 1) return "Added 1 day ago";
-    if (diffDays === 2) return "Added 2 days ago";
-    if (diffDays < 7) return `Added ${diffDays} days ago`;
-    if (diffWeeks === 1) return "Added 1 week ago";
-    if (diffWeeks < 4) return `Added ${diffWeeks} weeks ago`;
-    if (diffMonths === 1) return "Added 1 month ago";
-    return `Added ${diffMonths} months ago`;
+    if (language === 'zh') {
+      if (diffMins < 1) return "刚刚添加";
+      if (diffMins < 60) return `${diffMins}${t('addedMinutesAgo')}`;
+      if (diffHours < 24) return `${diffHours}${t('addedHoursAgo')}`;
+      if (diffDays === 1) return "1天前添加";
+      if (diffDays === 2) return "2天前添加";
+      if (diffDays < 7) return `${diffDays}${t('addedDaysAgo')}`;
+      if (diffWeeks === 1) return "1周前添加";
+      if (diffWeeks < 4) return `${diffWeeks}${t('addedWeeksAgo')}`;
+      if (diffMonths === 1) return "1个月前添加";
+      return `${diffMonths}${t('addedMonthsAgo')}`;
+    } else {
+      if (diffMins < 1) return t('addedJustNow');
+      if (diffMins < 60) return `${t('added')} ${diffMins} ${t('addedMinutesAgo')}`;
+      if (diffHours < 24) return `${t('added')} ${diffHours} ${t('addedHoursAgo')}`;
+      if (diffDays === 1) return `${t('added')} 1 day ago`;
+      if (diffDays === 2) return `${t('added')} 2 days ago`;
+      if (diffDays < 7) return `${t('added')} ${diffDays} ${t('addedDaysAgo')}`;
+      if (diffWeeks === 1) return `${t('added')} 1 week ago`;
+      if (diffWeeks < 4) return `${t('added')} ${diffWeeks} ${t('addedWeeksAgo')}`;
+      if (diffMonths === 1) return `${t('added')} 1 month ago`;
+      return `${t('added')} ${diffMonths} ${t('addedMonthsAgo')}`;
+    }
   };
 
   return (
@@ -76,21 +91,21 @@ function CommandItem({ command, onEdit, onDelete }: CommandItemProps) {
             <button
               className={`icon-button copy-button ${copied ? "copied" : ""}`}
               onClick={handleCopy}
-              title={copied ? "已复制" : "复制命令"}
+              title={copied ? t('copied') : t('copy')}
             >
               {copied ? <Check size={18} /> : <Copy size={18} />}
             </button>
             <button
               className="icon-button"
               onClick={() => onEdit(command)}
-              title="编辑"
+              title={t('edit')}
             >
               <Edit2 size={18} />
             </button>
             <button
               className="icon-button delete-button"
               onClick={() => command.id && onDelete(command.id)}
-              title="删除"
+              title={t('delete')}
             >
               <Trash2 size={18} />
             </button>

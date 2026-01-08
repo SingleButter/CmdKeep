@@ -1,4 +1,6 @@
 import { Folder, List, Code, Database, Cloud } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
+import SettingsMenu from "./SettingsMenu";
 
 interface CategoryFilterProps {
   categories: string[];
@@ -7,6 +9,7 @@ interface CategoryFilterProps {
 }
 
 function CategoryFilter({ categories, selectedCategory, onCategoryChange }: CategoryFilterProps) {
+  const { t } = useLanguage();
   const getCategoryIcon = (category: string) => {
     const iconSize = 16;
     switch (category.toLowerCase()) {
@@ -22,31 +25,34 @@ function CategoryFilter({ categories, selectedCategory, onCategoryChange }: Cate
   };
 
   return (
-    <div className="category-filter">
-      <h3 className="category-title">
-        <Folder size={18} />
-        分类
-      </h3>
-      <div className="category-list">
-        <button
-          className={`category-item ${selectedCategory === null ? "active" : ""}`}
-          onClick={() => onCategoryChange(null)}
-        >
-          <List size={16} />
-          全部
-        </button>
-        {categories.map((category) => (
+    <>
+      <div className="category-filter">
+        <h3 className="category-title">
+          <Folder size={18} />
+          {t('categories')}
+        </h3>
+        <div className="category-list">
           <button
-            key={category}
-            className={`category-item ${selectedCategory === category ? "active" : ""}`}
-            onClick={() => onCategoryChange(category)}
+            className={`category-item ${selectedCategory === null ? "active" : ""}`}
+            onClick={() => onCategoryChange(null)}
           >
-            {getCategoryIcon(category)}
-            {category}
+            <List size={16} />
+            {t('allCategories')}
           </button>
-        ))}
+          {categories.map((category) => (
+            <button
+              key={category}
+              className={`category-item ${selectedCategory === category ? "active" : ""}`}
+              onClick={() => onCategoryChange(category)}
+            >
+              {getCategoryIcon(category)}
+              {category}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+      <SettingsMenu />
+    </>
   );
 }
 
